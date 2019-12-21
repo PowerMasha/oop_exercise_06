@@ -15,7 +15,7 @@ public:
     }
     Square<T>() = default;
 
-    double Area() {
+    double Area() const {
         double res = 0;
         for (size_t i = 0; i < 3; i++) {
             res += (points[i].x * points[i+1].y) - (points[i+1].x * points[i].y);
@@ -33,7 +33,7 @@ public:
         }
         os << std::endl;
     }
-    void Check() {
+    void Check() const {
         double a, b, c, d, d1, d2, ABC, BCD, CDA, DAB;
         a = sqrt((points[2].x- points[1].x) * (points[2].x - points[1].x) + (points[2].y - points[1].y) * (points[2].y - points[1].y));
         b = sqrt((points[3].x- points[2].x) * (points[3].x - points[2].x) + (points[3].y - points[2].y) * (points[3].y - points[2].y));
@@ -46,7 +46,7 @@ public:
         CDA = (d * d + c * c - d2 * d2) / 2 * d * c;
         DAB = (a * a + d * d - d1 * d1) / 2 * a * d;
         if(ABC != BCD || ABC != CDA || ABC != DAB || a!=b || a!=c || a!=d )
-            throw std::logic_error("Это не квадрат!");
+            throw std::logic_error("Это не квадрат");
     }
 
     void operator<< (std::ostream& os) {

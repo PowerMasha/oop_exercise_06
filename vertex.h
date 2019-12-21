@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <cmath>
-
-
 template<class T>
 struct vertex {
     T x;
