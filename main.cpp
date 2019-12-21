@@ -1,17 +1,19 @@
 #include <iostream>
 #include <algorithm>
+#include <map>
 #include "square.h"
-#include "conteiners/list.h"
-
+#include "conteiner/list.h"
+#include "allocator/allocator.h"
 int main() {
+    setlocale(LC_ALL, "rus");
     size_t N;
     float S;
     char option = '0';
-    containers::list<Square<int>> q;
+    containers::list<Square<int>, allocators::my_allocator<Square<int>, 500>> q;
     Square<int> kva{};
     while (option != 'q') {
         std::cout << "выберите опцию (m for man, q to quit)" << std::endl;
-        std::cin >> option;
+        std:: cin >> option;
         switch (option) {
             case 'q':
                 break;
@@ -20,7 +22,7 @@ int main() {
                           << "2. Удалить фигуру \n"
                           << "3. Вывести фигуру по индексу\n"
                           << "o. Вывести все фигуры\n"
-                          << "a. Вывести кол-во фигур чья площаль меньше чем ...\n";
+                          << "a. Вывести кол-во фигур чья площадь меньше чем ...\n";
                 break;
             }
 
