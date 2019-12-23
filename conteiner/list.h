@@ -66,8 +66,8 @@ namespace containers {
         };
         struct element {
             T value;
-            std::shared_ptr<element> next_element = nullptr;
-            std::shared_ptr<element> prev_element = nullptr;
+            std::shared_ptr<element> next_element;
+            std::weak_ptr<element> prev_element ;
             forward_iterator next();
         };
         allocator_type allocator_{};
@@ -107,7 +107,8 @@ namespace containers {
         }
 
         first = first->next_element;
-        first->prev_element = nullptr;
+        if(first){
+            first->prev_element.reset();}
         size--;
     }
 
@@ -161,8 +162,9 @@ namespace containers {
             size --;
             return;
         }
-        d_it.it_ptr->prev_element->next_element = d_it.it_ptr->next_element;
         d_it.it_ptr->next_element->prev_element = d_it.it_ptr->prev_element;
+        d_it.it_ptr->prev_element.lock()->next_element = d_it.it_ptr->next_element;
+
 
         size--;
     }
@@ -195,7 +197,7 @@ namespace containers {
 
                     tmp->prev_element = push_impl(first);
                     push_impl(first)->next_element = std::shared_ptr<element>(tmp);
-                    if (tmp->value.Area() < tmp->prev_element->value.Area()) {
+                    if (tmp->value.Area() < tmp->prev_element.lock()->value.Area()) {
                         throw std::logic_error("Area is too low");
                     }
                     size++;
@@ -203,14 +205,14 @@ namespace containers {
                 } else {
                     std::shared_ptr<element> tmp = std::shared_ptr<element>(new element{value});
                     tmp->prev_element = ins_it.it_ptr->prev_element;
-                    tmp->next_element = ins_it.it_ptr->prev_element->next_element;
+                    tmp->next_element = ins_it.it_ptr->prev_element.lock()->next_element;
                     ins_it.it_ptr->prev_element = tmp;
-                    tmp->prev_element->next_element = tmp;
+                    tmp->prev_element.lock()->next_element = tmp;
 
                     if (tmp->value.Area() > tmp->next_element->value.Area()) {
                         throw std::logic_error("Area is too big");
                     }
-                    if (tmp->value.Area() < tmp->prev_element->value.Area()) {
+                    if (tmp->value.Area() < tmp->prev_element.lock()->value.Area()) {
                         throw std::logic_error("Area is too low");
                     }
                 }
