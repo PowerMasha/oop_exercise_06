@@ -51,14 +51,19 @@ int main() {
             case '2': {
                 std::cout << "позиция для удаления: ";
                 std::cin >> N;
-                if (N == (q.length()-1)){
-                    q.pop_back();
+                if (N==0){
+                    q.pop_front();
+
                 }else {
-                    try {
-                        q.delete_by_number(N);
-                    } catch (std::logic_error &err) {
-                        std::cout << err.what() << std::endl;
-                        break;
+                    if (N == (q.length() - 1)) {
+                        q.pop_back();
+                    } else {
+                        try {
+                            q.delete_by_number(N);
+                        } catch (std::logic_error &err) {
+                            std::cout << err.what() << std::endl;
+                            break;
+                        }
                     }
                 }
                 break;
