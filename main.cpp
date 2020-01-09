@@ -38,19 +38,14 @@ int main() {
                     std::cout << err.what() << std::endl;
                     break;
                 }
-                try {
-                    q.insert_by_number(N, kva);
-                } catch (std::logic_error &err) {
-                    q.delete_by_number(N);
-                    std::cout << err.what() << std::endl;
-                    break;
-                }
+                q.insert_by_number(N, kva);
 
                 break;
             }
             case '2': {
                 std::cout << "позиция для удаления: ";
                 std::cin >> N;
+
                 if (N==0){
                     q.pop_front();
 
@@ -66,6 +61,20 @@ int main() {
                         }
                     }
                 }
+                break;
+            }
+
+
+        case '4': {
+                    q.pop_back();
+                break;
+            }
+            case '5': {
+                q.pop_front();
+                break;
+            }
+            case '6': {
+                std::cout << q.length() << std::endl;
                 break;
             }
             case '3': {
